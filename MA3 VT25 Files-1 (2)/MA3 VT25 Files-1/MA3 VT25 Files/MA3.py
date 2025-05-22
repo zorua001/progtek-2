@@ -65,6 +65,16 @@ def sphere_volume_parallel2(n,d,np=10):
     #n is the number of points
     # d is the number of dimensions of the sphere
     #np is the number of processes
+    start = pc()
+    with future.ProcessPoolExecutor() as ex:
+        k = [n for i in range (np)]
+        c = [d for i in range (np)]
+        results = ex.map(sphere_volume, k,c)
+        
+        for r in results:
+            print(r)
+
+    stop = pc()
     return 
     
 def main():
@@ -102,6 +112,7 @@ def main():
     stop = pc()
     print(f"Ex4: Sequential time of {d} and {n}: {stop-start}")
     print("What is parallel time?")
+    print(sphere_volume_parallel2(n, d),  'seconds')
 
     
     
